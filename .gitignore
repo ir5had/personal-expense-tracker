@@ -1,0 +1,13 @@
+# Python compiled files
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+.env
+
+# System files
+.DS_Store
+
+# PyCharm project files
+.idea/
