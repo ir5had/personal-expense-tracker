@@ -1,4 +1,4 @@
-from expense import add_transaction
+from expense import add_transaction, transactions  # Added transactions import
 
 def main():
     while True:
@@ -29,6 +29,13 @@ def main():
             except ValueError:
                 print("Invalid amount! Please enter a number.")
         elif choice == "2":
+            print("\nAll Transactions:")
+            if transactions:
+                for i, t in enumerate(transactions, 1):
+                    print(f"{i}. Amount: {t['amount']}, Category: {t['category']}, "
+                          f"Description: {t['description']}, Date: {t['date']}")
+            else:
+                print("No transactions added.")
             print("Exiting...")
             break
         else:
