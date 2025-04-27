@@ -1,11 +1,13 @@
-from expense import add_transaction, transactions  # Added transactions import
+from expense import add_transaction, transactions, get_all_transactions, get_transactions_by_category
 
 def main():
     while True:
         print("\nPersonal Expense Tracker")
         print("1. Add Transaction")
-        print("2. Exit")
-        choice = input("Enter choice (1-2): ")
+        print("2. View All Transactions")
+        print("3. View Transactions by Category")
+        print("4. Exit")
+        choice = input("Enter choice (1-4): ")
 
         if choice == "1":
             try:
@@ -29,6 +31,28 @@ def main():
             except ValueError:
                 print("Invalid amount! Please enter a number.")
         elif choice == "2":
+            transactions_list = get_all_transactions()
+            if transactions_list:
+                print("\nAll Transactions:")
+                for i, t in enumerate(transactions_list, 1):
+                    print(f"{i}. Amount: {t['amount']}, Category: {t['category']}, "
+                          f"Description: {t['description']}, Date: {t['date']}")
+            else:
+                print("\nNo transactions available.")
+        elif choice == "3":
+            category = input("Enter category to filter (e.g., Food, Transport): ").strip()
+            if not category:
+                print("Category cannot be empty!")
+                continue
+            transactions_list = get_transactions_by_category(category)
+            if transactions_list:
+                print(f"\nTransactions for Category '{category}':")
+                for i, t in enumerate(transactions_list, 1):
+                    print(f"{i}. Amount: {t['amount']}, Category: {t['category']}, "
+                          f"Description: {t['description']}, Date: {t['date']}")
+            else:
+                print(f"\nNo transactions found for category '{category}'.")
+        elif choice == "4":
             print("\nAll Transactions:")
             if transactions:
                 for i, t in enumerate(transactions, 1):
@@ -39,7 +63,7 @@ def main():
             print("Exiting...")
             break
         else:
-            print("Invalid choice! Please enter 1 or 2.")
+            print("Invalid choice! Please enter 1-4.")
 
 if __name__ == "__main__":
     main()
