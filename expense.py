@@ -40,3 +40,18 @@ def get_transactions_by_category(category):
         list: List of transaction dictionaries matching the category
     """
     return [t for t in transactions if t["category"].lower() == category.lower()]
+
+def get_expense_summary():
+    """
+    Calculate total spent and per-category totals.
+    Returns:
+        dict: Dictionary with 'total' (float) and 'categories' (dict of category: total)
+    """
+    total = 0.0
+    categories = {}
+    for transaction in transactions:
+        amount = transaction["amount"]
+        category = transaction["category"]
+        total += amount
+        categories[category] = categories.get(category, 0.0) + amount
+    return {"total": total, "categories": categories}

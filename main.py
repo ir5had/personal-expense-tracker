@@ -1,4 +1,4 @@
-from expense import add_transaction, transactions, get_all_transactions, get_transactions_by_category
+from expense import add_transaction, transactions, get_all_transactions, get_transactions_by_category, get_expense_summary
 
 def main():
     while True:
@@ -6,8 +6,9 @@ def main():
         print("1. Add Transaction")
         print("2. View All Transactions")
         print("3. View Transactions by Category")
-        print("4. Exit")
-        choice = input("Enter choice (1-4): ")
+        print("4. Summarize Expenses")
+        print("5. Exit")
+        choice = input("Enter choice (1-5): ")
 
         if choice == "1":
             try:
@@ -53,6 +54,16 @@ def main():
             else:
                 print(f"\nNo transactions found for category '{category}'.")
         elif choice == "4":
+            summary = get_expense_summary()
+            print("\nExpense Summary:")
+            if summary["total"] > 0:
+                print(f"Total Spent: ${summary['total']:.2f}")
+                print("By Category:")
+                for category, total in summary["categories"].items():
+                    print(f"- {category}: ${total:.2f}")
+            else:
+                print("No expenses to summarize.")
+        elif choice == "5":
             print("\nAll Transactions:")
             if transactions:
                 for i, t in enumerate(transactions, 1):
@@ -63,7 +74,7 @@ def main():
             print("Exiting...")
             break
         else:
-            print("Invalid choice! Please enter 1-4.")
+            print("Invalid choice! Please enter 1-5.")
 
 if __name__ == "__main__":
     main()
