@@ -1,6 +1,12 @@
-from expense import add_transaction, transactions, get_all_transactions, get_transactions_by_category, get_expense_summary
+from expense import (add_transaction, transactions, get_all_transactions,
+                     get_transactions_by_category, get_expense_summary,
+                     load_transactions, save_transactions)
+
 
 def main():
+    # Load transactions at startup
+    load_transactions()
+
     while True:
         print("\nPersonal Expense Tracker")
         print("1. Add Transaction")
@@ -64,17 +70,20 @@ def main():
             else:
                 print("No expenses to summarize.")
         elif choice == "5":
+            transactions_list = get_all_transactions()  # Use function for consistency
             print("\nAll Transactions:")
-            if transactions:
-                for i, t in enumerate(transactions, 1):
+            if transactions_list:
+                for i, t in enumerate(transactions_list, 1):
                     print(f"{i}. Amount: {t['amount']}, Category: {t['category']}, "
                           f"Description: {t['description']}, Date: {t['date']}")
             else:
                 print("No transactions added.")
-            print("Exiting...")
+            save_transactions()  # Save transactions before exiting
+            print("Transactions saved. Exiting...")
             break
         else:
             print("Invalid choice! Please enter 1-5.")
+
 
 if __name__ == "__main__":
     main()

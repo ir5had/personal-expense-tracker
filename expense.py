@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 # List to store transactions
@@ -55,3 +56,31 @@ def get_expense_summary():
         total += amount
         categories[category] = categories.get(category, 0.0) + amount
     return {"total": total, "categories": categories}
+
+def load_transactions(filename="expenses.json"):
+    """
+    Load transactions from a JSON file.
+    Args:
+        filename (str): The JSON file to load (default: expenses.json)
+    """
+    global transactions
+    try:
+        with open(filename, "r") as file:
+            transactions = json.load(file)
+    except FileNotFoundError:
+        transactions = []  # Start with empty list if file doesn't exist
+    except json.JSONDecodeError:
+        print("Error: Invalid JSON file. Starting with empty transactions.")
+        transactions = []
+
+def save_transactions(filename="expenses.json"):
+    """
+    Save transactions to a JSON file.
+    Args:
+        filename (str): The JSON file to save to (default: expenses.json)
+    """
+    try:
+        with open(filename, "w") as file:
+            json.dump(transactions, file, indent=4)
+    except Exception as e:
+        print(f"Error saving transactions: {e}")
